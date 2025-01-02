@@ -1,0 +1,9 @@
+README.md
+setup.py
+gosintlib/__init__.py
+gosintlib/main.py
+gosintlib.egg-info/PKG-INFO
+gosintlib.egg-info/SOURCES.txt
+gosintlib.egg-info/dependency_links.txt
+gosintlib.egg-info/requires.txt
+gosintlib.egg-info/top_level.txt
