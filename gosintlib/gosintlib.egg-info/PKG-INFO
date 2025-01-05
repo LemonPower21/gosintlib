@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: gosintlib
-Version: 3.0
+Version: 4.0
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Intended Audience :: Developers
 Classifier: License :: OSI Approved :: MIT License
@@ -19,9 +19,9 @@ Requires-Dist: requests==2.32.3
 Requires-Dist: phonenumbers==8.13.52
 Requires-Dist: dnspython==2.7.0
 
-# Osintlib
+# **G-Osintlib**
 
-This Python script contains several functions designed to validate and retrieve detailed information for various data types such as phone numbers, IP addresses, credit cards, email addresses, VINs, ISINs, and ISBNs. These functions make use of various third-party websites to fetch relevant data.
+This Python script contains several functions designed to validate and retrieve detailed information for various data types such as phone numbers, IP addresses, credit cards, email addresses, VINs, ISINs, ISBNs, and IP cameras. These functions utilize third-party APIs and libraries to fetch relevant data, enabling quick and efficient data lookups.
 
 ---
 
@@ -33,6 +33,7 @@ This Python script contains several functions designed to validate and retrieve 
 4. [Usage](#usage)
 5. [Error Handling](#error-handling)
 6. [License](#license)
+7. [Credits](#credits)
 
 ---
 
@@ -47,6 +48,8 @@ The script includes the following functions:
 - **vinscan(vin)**: Retrieves information about a vehicle using its VIN (Vehicle Identification Number).
 - **isin(isin)**: Validates and retrieves information about an ISIN (International Securities Identification Number).
 - **isbn(isbn)**: Validates and retrieves information about a book using its ISBN.
+- **ipcams(countrycode)**: Retrieves IP addresses of public IP cameras in a given country.
+- **ipcamscode()**: Displays a list of countries and the number of webcams available in each country.
 
 ---
 
@@ -58,11 +61,15 @@ The script includes the following functions:
 - **Input**: A phone number as a string.
 - **Output**: Displays phone number information including country, carrier, and time zone.
 
+---
+
 ### `ipscan(ip, fast=False)`
 
 - **Description**: Scans an IP address, retrieves location information, and performs port scanning (optional).
 - **Input**: IP address (string), `fast` (boolean) to skip port scanning.
 - **Output**: Prints IP information such as location, organization, and open ports (if `fast` is set to `False`).
+
+---
 
 ### `creditcard(card)`
 
@@ -70,11 +77,15 @@ The script includes the following functions:
 - **Input**: A credit card number as a string.
 - **Output**: Prints card details such as type, brand, issuer, country, and currency.
 
+---
+
 ### `email(email)`
 
 - **Description**: Validates the format of an email address and checks for a valid mail server (MX records).
 - **Input**: An email address as a string.
 - **Output**: Prints information about the email's domain and mail server validity.
+
+---
 
 ### `vinscan(vin)`
 
@@ -82,17 +93,37 @@ The script includes the following functions:
 - **Input**: A VIN as a string.
 - **Output**: Prints detailed information about the vehicle, such as make, model, and year.
 
+---
+
 ### `isin(isin)`
 
 - **Description**: Validates the format of an ISIN (International Securities Identification Number) and extracts its components.
 - **Input**: An ISIN number as a string.
 - **Output**: Prints the country code, security identifier, and checksum of the ISIN.
 
+---
+
 ### `isbn(isbn)`
 
 - **Description**: Validates the format of an ISBN and retrieves information about the book.
 - **Input**: An ISBN number as a string (either ISBN-10 or ISBN-13).
 - **Output**: Prints information about the book based on the ISBN format.
+
+---
+
+### `ipcams(countrycode)`
+
+- **Description**: Retrieves the IP addresses of publicly available IP cameras from a specific country.
+- **Input**: Country code (ISO 3166-1 alpha-2).
+- **Output**: Prints a list of IP camera IP addresses from the country specified and saves the results to a `.txt` file.
+
+---
+
+### `ipcamscode()`
+
+- **Description**: Displays a list of countries and the number of webcams available in each country.
+- **Input**: None.
+- **Output**: Prints the country code, country name, and the number of webcams in each country.
 
 ---
 
@@ -104,12 +135,14 @@ To run this script, you will need to install the following Python packages:
 - `requests`: For making HTTP requests to external APIs.
 - `socket`: For resolving IP addresses.
 - `dns.resolver`: For resolving MX records for email validation.
+- `re`: For regular expressions to validate ISIN, ISBN, and email formats.
 - `concurrent.futures`: For multi-threaded port scanning.
+- `colorama`: For color formatting in the terminal.
 
-Install the required packages using the following command:
+You can install the required packages using the following command:
 
 ```bash
-pip install phonenumbers requests dnspython
+pip install phonenumbers requests dnspython colorama
 ```
 
 ---
@@ -160,15 +193,27 @@ isin("US0378331005")
 isbn("9780132350884")
 ```
 
+### Example 8: IP Cameras in a Country
+
+```python
+ipcams("US")
+```
+
+### Example 9: List of Countries and Webcams
+
+```python
+ipcamscode()
+```
+
 ---
 
 ## Error Handling
 
 The functions handle various exceptions gracefully, including:
 
-- **Invalid Format**: If the input does not match the expected format, an error message will be shown.
+- **Invalid Format**: If the input does not match the expected format (e.g., a malformed phone number, VIN, or credit card), an error message will be shown.
 - **Network Issues**: If there is a problem with the external API or network, the script will output a relevant error message.
-- **Invalid Data**: If the data retrieved from an API is invalid or incomplete, the script will print an error message.
+- **Invalid Data**: If the data retrieved from an API is invalid or incomplete, the script will print an error message, prompting the user to try again or verify the data.
 
 ---
 
@@ -181,3 +226,5 @@ This script is released under the MIT License. Feel free to modify and distribut
 ## Credits
 
 This script was created by **LemonPower21** (also known as **Francesco Vito Giotta**).
+
+---

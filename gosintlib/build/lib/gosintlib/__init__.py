@@ -5,3 +5,5 @@ from .main import phone
 from .main import isbn
 from .main import isin
 from .main import email
+from .main import ipcamscode
+from .main import ipcams

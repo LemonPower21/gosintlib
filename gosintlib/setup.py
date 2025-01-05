@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='gosintlib',
-    version='3.0',
+    version='4.0',
     packages=find_packages(),
     install_requires=[
         'requests==2.32.3',

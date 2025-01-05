@@ -160,3 +160,51 @@ def isbn(isbn):
         print(f"  Checksum: {isbn[9]}")
     else:
         print("Invalid ISBN format.")
+def ipcams(countrycode):
+    import requests
+    import re
+    from requests.structures import CaseInsensitiveDict
+    import colorama
+    colorama.init()
+    countrycode = countrycode.upper()
+    url = "http://www.insecam.org/en/jsoncountries/"
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+    headers["Cache-Control"] = "max-age=0"
+    headers["Connection"] = "keep-alive"
+    headers["Host"] = "www.insecam.org"
+    headers["Upgrade-Insecure-Requests"] = "1"
+    headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+    response = requests.get(url, headers=headers)
+    data = response.json()
+    countries = data['countries']
+    try:
+        res = requests.get(f"http://www.insecam.org/en/bycountry/{countrycode}", headers=headers)
+        last_page = re.findall(r'pagenavigator\("\?page=", (\d+)', res.text)[0]
+        for page in range(int(last_page)):
+            res = requests.get(f"http://www.insecam.org/en/bycountry/{countrycode}/?page={page}", headers=headers)
+            ip_addresses = re.findall(r"http://\d+\.\d+\.\d+\.\d+:\d+", res.text)
+            with open(f'{countrycode}.txt', 'w') as file:
+                for ip in ip_addresses:
+                    print(ip)
+    except Exception as e:
+        pass
+    finally:
+        exit()
+def ipcamscode():
+    import requests, re , colorama ,random
+    from requests.structures import CaseInsensitiveDict
+    colorama.init()
+    url = "http://www.insecam.org/en/jsoncountries/"
+    headers = CaseInsensitiveDict()
+    headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+    headers["Cache-Control"] = "max-age=0"
+    headers["Connection"] = "keep-alive"
+    headers["Host"] = "www.insecam.org"
+    headers["Upgrade-Insecure-Requests"] = "1"
+    headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+    resp = requests.get(url, headers=headers)
+    data = resp.json()
+    countries = data['countries']
+    for key, value in countries.items():
+        print(f'Code: {key}\nCountry: {value["country"]}\nWebcams: {value["count"]}\n\n')
